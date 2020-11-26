@@ -13,7 +13,7 @@ public class InsertListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            DeckFace.input(str);
+            DeckFace.insert(str);
         } catch (SQLException ex) {
             System.out.println(ex);
         }

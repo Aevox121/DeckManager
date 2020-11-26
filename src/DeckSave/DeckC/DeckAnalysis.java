@@ -1,5 +1,6 @@
 package DeckSave.DeckC;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,12 +29,18 @@ public class DeckAnalysis {
     public static Deck fromString(String DeckCode){
         //把空格去掉
         String reDeckCode = DeckCode.replace(" ", "");
-        //找到简略代码
-        int index = reDeckCode.lastIndexOf("#");
-        int endIndex = reDeckCode.lastIndexOf("#",index-1);
-        int beginIndex = reDeckCode.lastIndexOf("#",endIndex-1);
-        String DeckCodeSlim = reDeckCode.substring(beginIndex+1,endIndex);
 
+        //找到简略代码
+        String DeckCodeSlim = new String();
+        try {
+            int index = reDeckCode.lastIndexOf("#");
+            int endIndex = reDeckCode.lastIndexOf("#", index - 1);
+            int beginIndex = reDeckCode.lastIndexOf("#", endIndex - 1);
+            DeckCodeSlim = reDeckCode.substring(beginIndex + 1, endIndex);
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null,"卡组代码异常","提示",JOptionPane.WARNING_MESSAGE);
+        }
 
         //System.out.println(reDeckCode);
 

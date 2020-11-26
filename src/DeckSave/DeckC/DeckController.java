@@ -23,8 +23,11 @@ public class DeckController {
             if (e.getMessage().contains("DeckNameRe")) {
                 JOptionPane.showMessageDialog(null,"导入失败：卡组名已存在","提示",JOptionPane.WARNING_MESSAGE);
             }
-            if (e.getMessage().contains("DeckCodeRe")) {
+            else if (e.getMessage().contains("DeckCodeRe")) {
                 JOptionPane.showMessageDialog(null,"导入失败：卡组重复","提示",JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"导入失败：卡组代码有误","提示",JOptionPane.WARNING_MESSAGE);
             }
         }
     }
@@ -47,7 +50,7 @@ public class DeckController {
             rs_num = sql.executeQuery();
             rs_num.next();
             count = rs_num.getInt("count(*)");
-            System.out.println(count);
+            System.out.println("共有："+count+"个结果");
 
         }catch(SQLException e){
             System.out.println(e);
@@ -67,7 +70,6 @@ public class DeckController {
                 String DeckCodeSlim = DeckAnalysis.slim(DeckCode);
 
                 decks[i] = new Deck(DeckName, Profession, IsStandard, DeckCode, DeckCodeSlim);
-                System.out.println(i);
                 i++;
 
                 /*
@@ -78,15 +80,33 @@ public class DeckController {
                 System.out.println("-----------------------------------------------------------------------------");
             */
             }
-
+            if(i == 0)
+            JOptionPane.showMessageDialog(null,"查无结果","查找",JOptionPane.WARNING_MESSAGE);
 
             con.close();
             return decks;
         }
         catch(SQLException e){
-            System.out.println("查找失败：" + e);
+            JOptionPane.showMessageDialog(null,"查无结果","查找",JOptionPane.WARNING_MESSAGE);
         }
 
         return null;
+    }
+
+    public static void DeleteDeck(Connection con,String DeckCodeSlim) throws SQLException {
+        PreparedStatement sql;
+
+        String delete_DCS_sql = "delete from deck where DeckCodeSlim = ?";
+
+        sql = con.prepareStatement(delete_DCS_sql);
+
+        sql.setString(1,DeckCodeSlim);
+
+        try{
+            sql.executeUpdate();
+        }catch (SQLException e){
+            System.out.println(e);
+        }
+
     }
 }

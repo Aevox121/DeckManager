@@ -9,7 +9,7 @@ public class DeckFace {
         DBController dbc = new DBController("jdbc:mysql://localhost:3306/DeckManager?useSSL=true","root","S1828275470");
         con = dbc.connectionToDB();
     }
-    public static void input(String DeckCode) throws SQLException {
+    public static void insert(String DeckCode) throws SQLException {
         connection();
         Deck deck;
         deck = DeckAnalysis.fromString(DeckCode);
@@ -19,5 +19,9 @@ public class DeckFace {
     public static Deck[] select(String mess) throws SQLException{
         connection();
         return DeckController.selectDeck(con,mess);
+    }
+    public static void delete(String DeckCodeSlim) throws SQLException{
+        connection();
+        DeckController.DeleteDeck(con,DeckCodeSlim);
     }
 }
